@@ -1,7 +1,7 @@
-package insertionSort
+package sorting
 
 // insertion sort
-func insertionSort(arr []float32) []float32 {
+func InsertionSort(arr []float32) []float32 {
 
 	for i := 1; i < len(arr); i++ {
 		if arr[i-1] > arr[i] {
