@@ -9,17 +9,14 @@ func Binary(arr []int, item int) int {
 }
 
 func bin(arr []int, start int, end int, item int) int {
-	if start > end || start < 0 || end > len(arr) {
-		return -1
-	} else {
-		var mid int = (start + end) / 2
+	if end >= start {
+		var mid int = start + (end-start)/2
 		if arr[mid] == item {
 			return mid
-		} else if arr[mid] < item {
-			return bin(arr, start, mid, item)
-		} else {
-			return bin(arr, mid+1, end, item)
+		} else if arr[mid] > item {
+			return bin(arr, start, mid-1, item)
 		}
+		return bin(arr, mid+1, end, item)
 	}
-
+	return -1
 }
