@@ -3,19 +3,19 @@ package linkedlist
 import "fmt"
 
 // Node represents a node of linked list
-type Node struct {
-	value int
-	prev  *Node
-	next  *Node
+type Node[T comparable] struct {
+	value T
+	prev  *Node[T]
+	next  *Node[T]
 }
 
 // LinkedList represents a linked list
-type DoublyLinkedList struct {
-	head *Node
+type DoublyLinkedList[T comparable] struct {
+	head *Node[T]
 	len  int
 }
 
-func (l *DoublyLinkedList) Append(value int) {
+func (l *DoublyLinkedList[T]) Append(value T) {
 	n := newNode(value)
 	if l.len == 0 {
 		n.next = nil
@@ -25,13 +25,6 @@ func (l *DoublyLinkedList) Append(value int) {
 		l.len++
 		return
 	}
-
-	// if l.len == 1 {
-	// 	l.head.next = &n
-	// 	n.prev = l.head
-	// 	return
-	// }
-
 	ptr := l.head
 	for i := 0; i < l.len; i++ {
 		if ptr.next == nil {
@@ -45,7 +38,7 @@ func (l *DoublyLinkedList) Append(value int) {
 
 }
 
-func (l *DoublyLinkedList) AppendAt(value int, position int) {
+func (l *DoublyLinkedList[T]) AppendAt(value T, position int) {
 	n := newNode(value)
 	if l.len == 0 {
 		n.next = nil
@@ -77,7 +70,7 @@ func (l *DoublyLinkedList) AppendAt(value int, position int) {
 
 }
 
-func (l *DoublyLinkedList) Print() {
+func (l *DoublyLinkedList[T]) Print() {
 	ptr := l.head
 
 	for ptr != nil {
@@ -88,7 +81,7 @@ func (l *DoublyLinkedList) Print() {
 
 }
 
-func (l *DoublyLinkedList) Remove() {
+func (l *DoublyLinkedList[T]) Remove() {
 	ptr := l.head
 
 	if l.len == 1 {
@@ -108,7 +101,7 @@ func (l *DoublyLinkedList) Remove() {
 
 }
 
-func (l *DoublyLinkedList) RemoveAt(position int) {
+func (l *DoublyLinkedList[T]) RemoveAt(position int) {
 	ptr := l.head
 
 	for i := 0; i < (position - 1); i++ {
@@ -123,15 +116,15 @@ func (l *DoublyLinkedList) RemoveAt(position int) {
 
 }
 
-func newNode(value int) Node {
-	return Node{
+func newNode[T comparable](value T) Node[T] {
+	return Node[T]{
 		prev:  nil,
 		value: value,
 		next:  nil,
 	}
 }
 
-func (l *DoublyLinkedList) IndexOf(value int) int {
+func (l *DoublyLinkedList[T]) IndexOf(value T) int {
 	ptr := l.head
 
 	var index int = 0
