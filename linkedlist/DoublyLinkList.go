@@ -15,11 +15,6 @@ type DoublyLinkedList struct {
 	len  int
 }
 
-// func GetLinkListFromArray(arr []int) []Node {
-// 	for i := 0; i < len(arr); i++ {
-// 	}
-// }
-
 func (l *DoublyLinkedList) Append(value int) {
 	n := newNode(value)
 	if l.len == 0 {
@@ -134,4 +129,20 @@ func newNode(value int) Node {
 		value: value,
 		next:  nil,
 	}
+}
+
+func (l *DoublyLinkedList) IndexOf(value int) int {
+	ptr := l.head
+
+	var index int = 0
+
+	for ptr != nil {
+		if ptr.value == value {
+			return index
+		}
+		ptr = ptr.next
+		index += 1
+	}
+
+	return -1
 }
