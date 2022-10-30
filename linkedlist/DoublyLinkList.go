@@ -92,9 +92,9 @@ func (l *DoublyLinkedList[T]) Remove() {
 	}
 
 	for ptr.next != nil {
+
 		ptr = ptr.next
 	}
-	// fmt.Print("asdf", ptr.value, ptr.prev.value)
 	ptr.prev.next = nil
 	ptr.prev = nil
 	l.len--
@@ -104,12 +104,17 @@ func (l *DoublyLinkedList[T]) Remove() {
 func (l *DoublyLinkedList[T]) RemoveAt(position int) {
 	ptr := l.head
 
-	for i := 0; i < (position - 1); i++ {
-		ptr = ptr.next
+	if position == l.len {
+		l.Remove()
 	}
 
-	ptr.next.prev = ptr.prev
+	for i := 0; i < (position - 1); i++ {
+		fmt.Println("vc", ptr.value, ptr.next.value)
+		ptr = ptr.next
+	}
+	fmt.Println("vc2", ptr.value, ptr.next.value)
 
+	ptr.next.prev = ptr.prev
 	ptr.prev.next = ptr.next
 
 	l.len--
@@ -139,3 +144,16 @@ func (l *DoublyLinkedList[T]) IndexOf(value T) int {
 
 	return -1
 }
+func (l *DoublyLinkedList[T]) Last() T {
+	ptr := l.head
+
+	for ptr.next != nil {
+		ptr = ptr.next
+	}
+
+	return ptr.value
+}
+
+// func removeLast() {
+
+// }
