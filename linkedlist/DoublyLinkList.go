@@ -1,6 +1,8 @@
 package linkedlist
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Node represents a node of linked list
 type Node[T comparable] struct {
@@ -108,15 +110,16 @@ func (l *DoublyLinkedList[T]) RemoveAt(position int) {
 		l.Remove()
 	}
 
-	for i := 0; i < (position - 1); i++ {
-		fmt.Println("vc", ptr.value, ptr.next.value)
+	for i := 0; i < position; i++ {
 		ptr = ptr.next
 	}
-	fmt.Println("vc2", ptr.value, ptr.next.value)
 
-	ptr.next.prev = ptr.prev
-	ptr.prev.next = ptr.next
+	//value to be deleted is the first node
+	if ptr.prev == nil {
+		ptr.next.prev = nil
+		l.head = ptr.next
 
+	}
 	l.len--
 
 }
@@ -154,6 +157,10 @@ func (l *DoublyLinkedList[T]) Last() T {
 	return ptr.value
 }
 
-// func removeLast() {
-
-// }
+func (l *DoublyLinkedList[T]) lastNode() T {
+	ptr := l.head
+	for ptr.next != nil {
+		ptr = ptr.next
+	}
+	return ptr.value
+}
