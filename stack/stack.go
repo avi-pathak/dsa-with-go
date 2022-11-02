@@ -24,5 +24,5 @@ func (s *Stack[T]) Peek() T {
 }
 
 func (s *Stack[T]) Print() {
-	fmt.Println(s.stack)
+	fmt.Print(s.stack)
 }
