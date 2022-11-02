@@ -1,7 +1,5 @@
 package bst
 
-import "fmt"
-
 type Node struct {
 	left  *Node
 	right *Node
@@ -11,6 +9,8 @@ type Node struct {
 type BST struct {
 	root *Node
 }
+
+type TraverseArgumentFn func(int)
 
 func (bst *BST) Insert(value int) {
 	root := bst.root
@@ -41,25 +41,52 @@ func (bst *BST) Insert(value int) {
 
 }
 
+func (bst *BST) Traverse(fn TraverseArgumentFn, TraverseType string) {
+	switch TraverseType {
+	case TraversalType.Inorder:
+		inorder(bst.root, fn)
+		break
+	case TraversalType.Preorder:
+		preorder(bst.root, fn)
+		break
+	case TraversalType.Postorder:
+		postorder(bst.root, fn)
+		break
+	}
+}
+
+//internal methods
+
+func inorder(root *Node, fn TraverseArgumentFn) {
+	if root == nil {
+		return
+	}
+
+	inorder(root.left, fn)
+
+	fn(root.value)
+	inorder(root.right, fn)
+}
+func preorder(root *Node, fn TraverseArgumentFn) {
+	if root == nil {
+		return
+	}
+	fn(root.value)
+	preorder(root.left, fn)
+	preorder(root.right, fn)
+}
+func postorder(root *Node, fn TraverseArgumentFn) {
+	if root == nil {
+		return
+	}
+	postorder(root.left, fn)
+	postorder(root.right, fn)
+	fn(root.value)
+}
 func newNode(value int) Node {
 	return Node{
 		left:  nil,
 		right: nil,
 		value: value,
 	}
-}
-
-func (bst *BST) Inorder() []int {
-	root := bst.root
-	inorder(root)
-	return []int{}
-}
-
-func inorder(root *Node) {
-	if root == nil {
-		return
-	}
-	inorder(root.left)
-	fmt.Println(root.value)
-	inorder(root.right)
 }
