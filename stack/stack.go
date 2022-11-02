@@ -26,3 +26,12 @@ func (s *Stack[T]) Peek() T {
 func (s *Stack[T]) Print() {
 	fmt.Print(s.stack)
 }
+
+func (s *Stack[T]) IsEmpty() bool {
+	if len(s.stack) == 0 {
+		return true
+	} else {
+		return false
+	}
+
+}
