@@ -38,3 +38,12 @@ func (q *Queue[T]) Peek() T {
 	return q.queue[len(q.queue)-1]
 
 }
+
+func (q *Queue[T]) IsEmpty() bool {
+	if len(q.queue) == 0 {
+		return true
+	}
+
+	return false
+
+}
