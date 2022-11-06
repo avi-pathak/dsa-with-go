@@ -47,7 +47,9 @@ func (bst *BST[T]) Insert(value T) {
 	return
 
 }
-
+func (bst *BST[T]) IsValidBST() bool {
+	return isBST(bst.root)
+}
 func (bst *BST[T]) Traverse(fn TraverseArgumentFn[T], TraverseType string) {
 	switch TraverseType {
 	case TraversalType.Inorder:
@@ -94,8 +96,24 @@ func (bst *BST[T]) Height() int {
 	root := bst.root
 	return height[T](root)
 }
-func height[T constraints.Ordered](root *Node[T]) int {
 
+// internal methods
+
+func isBST[T constraints.Ordered](root *Node[T]) bool {
+	if root == nil || root.left == nil && root.right == nil {
+		return true
+	}
+	var l bool = true
+	var r bool = true
+	if root.left != nil && root.left.value > root.value {
+		l = false
+	}
+	if root.right != nil && root.right.value < root.value {
+		r = false
+	}
+	return r && l && isBST(root.left) && isBST(root.right)
+}
+func height[T constraints.Ordered](root *Node[T]) int {
 	if root == nil {
 		return 0
 	} else {
@@ -113,7 +131,6 @@ func max(a int, b int) int {
 	}
 }
 
-// internal methods
 func levelOrderTraversal[T constraints.Ordered](root *Node[T], fn TraverseArgumentFn[T]) {
 	if root == nil {
 		return
