@@ -47,6 +47,87 @@ func (bst *BST[T]) Insert(value T) {
 	return
 
 }
+func (bst *BST[T]) Delete(value T) bool {
+
+	root := bst.root
+
+	var nodeToDelete *Node[T] = bst.Search(value)
+	if nodeToDelete == nil {
+		return false
+	}
+	var tempNode *Node[T] = getParentNode(root, nodeToDelete)
+	//case 1 where node is a leaf node
+	//node to delete is a leaf node just need to de
+	if nodeToDelete.left == nil && nodeToDelete.right == nil {
+		deleteLeafNode(root, nodeToDelete)
+	} else {
+
+		//case 2  where one of sub tree is nil
+		// grandParent := getParentNode(root, tempNode)
+		if nodeToDelete.left == nil {
+			//to check whther the parent if from left or right
+			if tempNode.left != nil && tempNode.left.value == nodeToDelete.value {
+				tempNode.left = nodeToDelete.right
+			} else {
+				tempNode.right = nodeToDelete.right
+			}
+		} else if nodeToDelete.right == nil {
+			if tempNode.left != nil && tempNode.left.value == nodeToDelete.value {
+				tempNode.left = nodeToDelete.left
+			} else {
+				tempNode.right = nodeToDelete.left
+			}
+		} else {
+			//case 3 where node has both the childern
+			inorderPredecesor := getMinNode(nodeToDelete)
+			deleteLeafNode(root, inorderPredecesor)
+			nodeToDelete.value = inorderPredecesor.value
+		}
+	}
+
+	return true
+}
+
+func getMinNode[T constraints.Ordered](node *Node[T]) *Node[T] {
+	for node.left != nil {
+		node = node.left
+	}
+	return node
+
+}
+
+func getParentNode[T constraints.Ordered](root *Node[T], node *Node[T]) *Node[T] {
+	var tempNode *Node[T] = nil
+	for root != nil {
+		if root.value == node.value {
+			return tempNode
+		}
+		tempNode = root
+		if root.value > node.value {
+			root = root.left
+		} else {
+			root = root.right
+		}
+	}
+	return nil
+}
+
+func getMaxNode[T constraints.Ordered](node *Node[T]) *Node[T] {
+	for node.right != nil {
+		node = node.right
+	}
+	return node
+
+}
+func deleteLeafNode[T constraints.Ordered](root *Node[T], node *Node[T]) {
+	parentNode := getParentNode(root, node)
+	if parentNode.left.value == node.value {
+		parentNode.left = nil
+	} else {
+		parentNode.right = nil
+	}
+
+}
 func (bst *BST[T]) IsValidBST() bool {
 	return isBST(bst.root)
 }
