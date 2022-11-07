@@ -19,6 +19,12 @@ type BST[t constraints.Ordered] struct {
 
 type TraverseArgumentFn[T constraints.Ordered] func(T)
 
+func (bst *BST[t]) MaxNode() *Node[t] {
+	return getMaxNode(bst.root)
+}
+func (bst *BST[t]) MinNode() *Node[t] {
+	return getMinNode(bst.root)
+}
 func (bst *BST[T]) Insert(value T) {
 	root := bst.root
 	tempNode := bst.root
